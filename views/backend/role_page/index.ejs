@@ -1,0 +1,79 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <!-- <h3 class="card-title">Role List</h3> -->
+                        <a href="/role/create" class="btn btn-sm btn-info float-right">Add Role</a>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Deskripsi</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% roles.forEach((role, index)=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= index + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= role.name %>
+                                        </td>
+                                        <td>
+                                            <%= role.description %>
+                                        </td>
+                                        <td>
+                                            <a href="/role/edit/<%= encrypt(role.id.toString()) %>"
+                                                class="btn btn-sm btn-warning">Edit</a>
+                                            <!-- <a href="/role/delete/<%= encrypt(role.id.toString()) %>" class="btn btn-sm btn-danger">Delete</a> -->
+                                            <button class="btn btn-sm btn-danger" id="delete-role"
+                                                data-role-id="<%= encrypt(role.id.toString()) %>">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<script>
+    document.querySelectorAll('#delete-role').forEach(button => {
+        button.addEventListener('click', function () {
+            const roleId = this.getAttribute('data-role-id');
+            const confirmDelete = confirm('Apakah anda yakin ingin menghapus role ini?');
+            if (confirmDelete) {
+                fetch(`/role/delete/${roleId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Role berhasil dihapus');
+                            window.location.reload();
+                        } else {
+                            alert('Role gagal dihapus');
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+            }
+        })
+    })
+</script>

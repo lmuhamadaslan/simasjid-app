@@ -1,7 +1,8 @@
 import { Sequelize, DataTypes } from "sequelize";
 import sequelize from "../databases/database.js";
+import Role from "./Role.js";
 
-const User = sequelize.define('User', {
+const User = sequelize.define('user', {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -18,10 +19,9 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    role: {
-        type: DataTypes.ENUM('admin', 'user'),
+    role_id: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 'user',
     }
 }, {
     timestamps: true,
@@ -29,5 +29,5 @@ const User = sequelize.define('User', {
 });
 
 User.sync({ alter: true, force: false });
-
+User. belongsTo(Role, { foreignKey: 'role_id', as: 'role'});
 export default User;
