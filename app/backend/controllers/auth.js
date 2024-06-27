@@ -64,14 +64,14 @@ export const register = async (req, res, next) => {
             try {
                 let admin;
                 if (req.body.name === 'administrator'){
-                    admin = 'admin';
+                    admin = 1;
                 }
                 const user = await User.create({
                     name: req.body.name,
                     email: req.body.email,
                     password: hashedPassword.toString('base64'),
                     salt: salt,
-                    role: admin || 'user',
+                    role_id: admin || 2,
                 });
 
                 req.login(user, function (err) {
