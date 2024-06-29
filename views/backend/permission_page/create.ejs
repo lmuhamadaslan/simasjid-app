@@ -1,0 +1,44 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Tambah Permission Baru</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <form action="/permission/store" method="post">
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Nama Permission</label>
+                  <input type="text" name="name" class="form-control" id="formGroupExampleInput"
+                    placeholder="Input nama permission">
+                </div>
+                <% if (typeof errors !== 'undefined') { %>
+                  <% errors.forEach(function(error) { %>
+                    <% if (error.path === 'name') { %>
+                      <div class="alert alert-danger" role="alert">
+                        <%= error.msg %>
+                      </div>
+                    <% } %>
+                  <% }) %>
+                <% } %>
+                <div class="form-group">
+                  <label for="formGroupExampleInput2">Deskripsi</label>
+                  <textarea type="text" name="description" class="form-control" id="formGroupExampleInput2"
+                    placeholder="Input deskripsi tentang permission"></textarea>
+                </div>
+                <!-- buat button simpan dan reset -->
+                <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                <button type="reset" class="btn btn-sm btn-danger">Reset</button>
+              </form>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+  </section>

@@ -1,1 +1,70 @@
-<h1>permission page</h1>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <!-- <h3 class="card-title">Role List</h3> -->
+                        <a href="/permission/create" class="btn btn-sm btn-info float-right">Add Permission</a>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Deskripsi</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% permission.forEach((item, index) => { %>
+                                    <tr>
+                                        <td><%= index + 1 %></td>
+                                        <td><%= item.name %></td>
+                                        <td><%= item.description %></td>
+                                        <td>
+                                            <a href="/permission/edit/<%= encrypt(item.id.toString()) %>" class="btn btn-sm btn-warning">Edit</a>
+                                            <button class="btn btn-sm btn-danger" id="delete-permission" data-permission-id="<%= encrypt(item.id.toString()) %>">Delete</button>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<script>
+    document.querySelectorAll('#delete-permission').forEach(button => {
+        button.addEventListener('click', function () {
+            const permissionId = this.getAttribute('data-permission-id');
+            const confirmDelete = confirm('Apakah anda yakin ingin menghapus permission ini?');
+            if (confirmDelete) {
+                fetch(`/permission/delete/${permissionId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Permission berhasil dihapus');
+                            window.location.reload();
+                        } else {
+                            alert('Permission gagal dihapus');
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+            }
+        })
+    })
+</script>
