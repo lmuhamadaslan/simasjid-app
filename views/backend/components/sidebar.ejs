@@ -67,7 +67,7 @@
         </a>
       </li>
       <% if (
-        hasAccess.includes('view_management_user')
+        hasAccess.includes('view_management_user') || user.role_id === 1
       ) { %>
         <li class="nav-item">
           <a href="#" class="nav-link">
@@ -90,7 +90,7 @@
                 <p>Permission</p>
               </a>
             </li>
-            <% if ( hasAccess.includes('role_permission_menu') ) { %>
+            <% if ( hasAccess.includes('role_permission_menu') || user.role_id === 1 ) { %>
               <li class="nav-item">
                 <a href="/role-permission" class="nav-link <% if (title == 'Management Akses') { %> active  <% } %>">
                   <i class="far fa-circle nav-icon"></i>
