@@ -1,12 +1,10 @@
 import { Router } from "express";
-import express from 'express';
 import { create, index, store, edit, update, destroy} from "../controllers/role.js";
 import { roleValidator } from "../validation/RoleValidation.js";
 import checkPermission from "../middleware/CheckPermission.js";
 import { isAuthenticated } from "../helpers/Helper.js";
 
 const router = Router();
-const app = express();
 const permission = async (req, res, next) => {
     const hasAccess = await checkPermission(req.user.id, 'view_management_user');
     if (!hasAccess) {
