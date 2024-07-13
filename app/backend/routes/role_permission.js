@@ -5,6 +5,10 @@ import { isAuthenticated } from "../helpers/Helper.js";
 
 const router = Router();
 const permission = async (req, res, next) => {
+    if (req.user.role_id === 1) {
+        return next();
+    }
+    
     const hasAccess = await checkPermission(req.user.id, 'role_permission_menu');
     if (!hasAccess) {
         return res.send("You di not have access to this menu");
