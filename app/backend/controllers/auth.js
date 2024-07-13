@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import { check, validationResult } from 'express-validator';
+import CryptoJS from 'crypto-js';
 
 export const registerPage = (req, res, next) => {
     const title = 'Register';
@@ -13,8 +14,9 @@ export const registerPage = (req, res, next) => {
 
 export const loginPage = (req, res, next) => {
     const title = 'Login';
+    const secret = process.env.SECRET_KEY;
 
-    res.render('backend/auth/login', { title, formData: {}, errorMessage: req.flash('error') });
+    res.render('backend/auth/login', { title, formData: {}, errorMessage: req.flash('error'), secret });
 }
 
 // validator for register
@@ -92,11 +94,15 @@ passport.use(new LocalStrategy({
     passwordField: 'password',
 }, async (email, password, done) => {
     try {
-        const user = await User.findOne({ where: { email } });
+        // decrypt password and email using CryptoJS
+        const emailDecrypted = CryptoJS.AES.decrypt(email, process.env.SECRET_KEY).toString(CryptoJS.enc.Utf8);
+        const passDecrypted = CryptoJS.AES.decrypt(password, process.env.SECRET_KEY).toString(CryptoJS.enc.Utf8);
+
+        const user = await User.findOne({ where: { email: emailDecrypted } });
 
         if (!user) return done(null, false, { message: 'Incorrect email or password.' });
 
-        crypto.pbkdf2(password, user.salt, 310000, 32, 'sha256', (err, hashedPassword) => {
+        crypto.pbkdf2(passDecrypted, user.salt, 310000, 32, 'sha256', (err, hashedPassword) => {
             if (err) return done(err);
 
             if (hashedPassword.toString('base64') !== user.password) return done(null, false, { message: 'Incorrect email or password.' });

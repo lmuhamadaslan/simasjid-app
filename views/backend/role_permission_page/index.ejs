@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header">
                         <!-- <h3 class="card-title">Role List</h3> -->
-                        <a href="/permission/create" class="btn btn-sm btn-info float-right">Add Permission</a>
+                        <a href="/role-permission/create" class="btn btn-sm btn-info float-right">Add Access Role</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -13,20 +13,28 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Deskripsi</th>
+                                    <th>Nama Role</th>
+                                    <th>Permission</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% permission.forEach((item, index) => { %>
+                                <% rolePermission.forEach((data, index) => { %>
                                     <tr>
                                         <td><%= index + 1 %></td>
-                                        <td><%= item.name %></td>
-                                        <td><%= item.description %></td>
                                         <td>
-                                            <a href="/permission/edit/<%= encrypt(item.id.toString()) %>" class="btn btn-sm btn-warning">Edit</a>
-                                            <button class="btn btn-sm btn-danger" id="delete-permission" data-permission-id="<%= encrypt(item.id.toString()) %>">Delete</button>
+                                            <%= data.role.name %>
+                                        </td>
+                                        <td>
+                                            <% data.permission.forEach(ts => { %>
+                                                <span class="badge badge-primary"><%= ts.permission.name %></span>
+                                            <% }) %>
+                                        </td>
+                                        <td>
+                                            <a href="/role-permission/edit/<%= encrypt(data.role.id.toString()) %>" class="btn btn-sm
+                                            btn-warning">Edit</a>
+                                            <button id="delete-role" data-role-id="<%= encrypt(data.role.id.toString()) %>" class="btn btn-sm
+                                            btn-danger">Delete</button>
                                         </td>
                                     </tr>
                                 <% }) %>
@@ -45,20 +53,20 @@
 </section>
 
 <script>
-    document.querySelectorAll('#delete-permission').forEach(button => {
+    document.querySelectorAll('#delete-role').forEach(button => {
         button.addEventListener('click', function () {
-            const permissionId = this.getAttribute('data-permission-id');
-            const confirmDelete = confirm('Apakah anda yakin ingin menghapus permission ini?');
+            const roleId = this.getAttribute('data-role-id');
+            const confirmDelete = confirm('Apakah anda yakin ingin menghapus role ini?');
             if (confirmDelete) {
-                fetch(`/permission/delete/${permissionId}`, {
+                fetch(`/role/delete/${roleId}`, {
                     method: 'DELETE'
                 })
                     .then(response => {
                         if (response.ok) {
-                            alert('Permission berhasil dihapus');
+                            alert('Role berhasil dihapus');
                             window.location.reload();
                         } else {
-                            alert('Permission gagal dihapus');
+                            alert('Role gagal dihapus');
                         }
                     })
                     .catch(error => {

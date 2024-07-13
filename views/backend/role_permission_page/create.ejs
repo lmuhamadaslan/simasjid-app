@@ -1,0 +1,85 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Tambah Hak Akses Role</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <form action="" method="post" id="formInput">
+                <div class="form-group">
+                    <label>Pilih Role</label>
+                    <select class="form-control" name="role_id" id="role_id" style="width: 100%;">
+                        <option value="">Pilih Role</option>
+                        <% roleData.forEach(item => { %>
+                            <% if(existingRoleIds.includes(item.id)) { %>
+                                <option value="<%= item.id %>" disabled><%= item.name %></option>
+                            <% } else { %>
+                                <option value="<%= item.id %>"><%= item.name %></option>
+                            <% } %>
+                        <% }) %>
+                    </select>
+                  </div>
+                    <% if (typeof errors !== 'undefined') { %>
+                    <% errors.forEach(function(error) { %>
+                        <% if (error.path === 'name') { %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= error.msg %>
+                        </div>
+                        <% } %>
+                    <% }) %>
+                    <% } %>
+                <!-- /.form-group -->
+                <div class="form-group">
+                    <label>Pilih Akses</label>
+                    <select class="select2" name="permission_id" id="permission_id" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
+                      <option>Pilih Hak Akses</option>
+                      <% permissionData.forEach(item => { %>
+                        <option value="<%= item.id %>"><%= item.name %></option>
+                      <% }) %>  
+                    </select>
+                  </div>
+                  <!-- /.form-group -->
+                <!-- buat button simpan dan reset -->
+                <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                <button type="reset" class="btn btn-sm btn-danger">Reset</button>
+              </form>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+</section>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    document.getElementById('formInput').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const role_id = document.getElementById('role_id').value;
+        const permission_id = Array.from(document.getElementById('permission_id').selectedOptions).map(Option => Option.value);
+
+        const data = {
+            role_id,
+            permission_id
+        }
+
+        try {
+            const response = await axios.post('/role-permission/store', data);
+            if (response.data.message === 'success') {
+                alert('Data berhasil disimpan');
+                document.getElementById('formInput').reset();
+                $('#permission_id').val(null).trigger('change');
+                window.location.href = '/role-permission/create';
+            }
+        } catch (error) {
+          alert(error.response.data.message)
+          console.error(error);
+        }
+    })
+</script>

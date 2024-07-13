@@ -1,6 +1,5 @@
 import { Router } from "express";
-import express from 'express';
-import { index, create, store } from "../controllers/permission.js";
+import { index, create, store, edit, update, destroy } from "../controllers/permission.js";
 import { permissionValidator } from "../validation/PermissionValidation.js";
 import checkPermission from "../middleware/CheckPermission.js";
 import { isAuthenticated } from "../helpers/Helper.js";
@@ -14,11 +13,11 @@ const permission = async (req, res, next) => {
     next();
 }
 
-// router.post('/role/store', isAuthenticated, permission, permissionValidator, store);
+router.post('/permission/store', isAuthenticated, permission, permissionValidator, store);
 router.get('/permission', isAuthenticated, permission, index);
-// router.get('/role/create', isAuthenticated, permission, create);
-// router.get('/role/edit/:id', isAuthenticated, permission, edit);
-// router.post('/role/update/:id', isAuthenticated, permission, permissionValidator, update);
-// router.delete('/role/delete/:id', isAuthenticated, permission, destroy);
+router.get('/permission/create', isAuthenticated, permission, create);
+router.get('/permission/edit/:id', isAuthenticated, permission, edit);
+router.post('/permission/update/:id', isAuthenticated, permission, permissionValidator, update);
+router.delete('/permission/delete/:id', isAuthenticated, permission, destroy);
 
 export default router;

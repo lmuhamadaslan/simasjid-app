@@ -85,27 +85,29 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/permission" class="nav-link">
+              <a href="/permission" class="nav-link <% if (title == 'Permission') { %> active <% } %>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Permission</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="/user" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Role Permission</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/user" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>User</p>
-              </a>
-            </li>
+            <% if ( hasAccess.includes('role_permission_menu') ) { %>
+              <li class="nav-item">
+                <a href="/role-permission" class="nav-link <% if (title == 'Management Akses') { %> active  <% } %>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Management Akses</p>
+                </a>
+              </li>
+            <% } %>
+              <li class="nav-item">
+                <a href="/user" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>User</p>
+                </a>
+              </li>
           </ul>
         </li>
         <% } %>
-        <li class="nav-header">MANAGEMENT KAS MASJID</li>
+          <li class="nav-header">MANAGEMENT KAS MASJID</li>
     </ul>
   </nav>
   <!-- /.sidebar-menu -->
