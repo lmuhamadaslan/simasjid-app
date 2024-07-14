@@ -4,7 +4,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Tambah Hak Akses Role</h3>
+              <h3 class="card-title">Edit Akses Role</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -13,12 +13,8 @@
                     <label>Pilih Role</label>
                     <select class="form-control" name="role_id" id="role_id" style="width: 100%;">
                         <option value="">Pilih Role</option>
-                        <% roleData.forEach(item => { %>
-                            <% if(existingRoleIds.includes(item.id) || item.id === 1) { %>
-                                <option value="<%= item.id %>" disabled><%= item.name %></option>
-                            <% } else { %>
-                                <option value="<%= item.id %>"><%= item.name %></option>
-                            <% } %>
+                        <% roles.forEach(function(item) { %>
+                            <option value="<%= item.id %>" <%= item.id === existingRole.id ? 'selected' : '' %>><%= item.name %></option>
                         <% }) %>
                     </select>
                   </div>
@@ -36,9 +32,9 @@
                     <label>Pilih Akses</label>
                     <select class="select2" name="permission_id" id="permission_id" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
                       <option>Pilih Hak Akses</option>
-                      <% permissionData.forEach(item => { %>
-                        <option value="<%= item.id %>"><%= item.name %></option>
-                      <% }) %>  
+                      <% permissions.forEach(function(item) { %>
+                        <option value="<%= item.id %>" <%= existingPermissions.includes(item.id) ? 'selected' : '' %>><%= item.name %></option>
+                      <% }) %>
                     </select>
                   </div>
                   <!-- /.form-group -->
@@ -70,12 +66,9 @@
         }
 
         try {
-            const response = await axios.post('/role-permission/store', data);
+            const response = await axios.post('/role-permission/update/<%= encryptId %>', data);
             if (response.data.message === 'success') {
                 alert('Data berhasil disimpan');
-                document.getElementById('formInput').reset();
-                $('#permission_id').val(null).trigger('change');
-                window.location.href = '/role-permission/create';
             }
         } catch (error) {
           alert(error.response.data.message)

@@ -67,7 +67,7 @@
         </a>
       </li>
       <% if (
-        hasAccess.includes('view_management_user')
+        hasAccess.includes('view_management_user') || user.role_id === 1
       ) { %>
         <li class="nav-item">
           <a href="#" class="nav-link">
@@ -78,32 +78,38 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
+            <% if ( hasAccess.includes('view_role') || user.role_id === 1 ) { %>
             <li class="nav-item">
               <a href="/role" class="nav-link <% if (title == 'Role') { %> active <% } %>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Role</p>
               </a>
             </li>
+            <% } %>
+            <% if ( hasAccess.includes('view_permission') || user.role_id === 1 ) { %>
             <li class="nav-item">
-              <a href="/permission" class="nav-link <% if (title == 'Permission') { %> active <% } %>">
+              <a href="/permission" class="nav-link <% if (title == 'Menu') { %> active <% } %>">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Permission</p>
+                <p>Menu</p>
               </a>
             </li>
-            <% if ( hasAccess.includes('role_permission_menu') ) { %>
+            <% } %>
+            <% if ( hasAccess.includes('view_role_permission') || user.role_id === 1 ) { %>
               <li class="nav-item">
-                <a href="/role-permission" class="nav-link <% if (title == 'Management Akses') { %> active  <% } %>">
+                <a href="/role-permission" class="nav-link <% if (title == 'Management Menu') { %> active  <% } %>">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Management Akses</p>
+                  <p>Management Menu</p>
                 </a>
               </li>
             <% } %>
+            <% if ( hasAccess.includes('view_user') || user.role_id === 1 ) { %>
               <li class="nav-item">
                 <a href="/user" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>User</p>
                 </a>
               </li>
+            <% } %>
           </ul>
         </li>
         <% } %>

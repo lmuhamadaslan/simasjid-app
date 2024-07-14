@@ -6,6 +6,10 @@ import { isAuthenticated } from "../helpers/Helper.js";
 
 const router = Router();
 const permission = async (req, res, next) => {
+    if (req.user.role_id === 1) {
+        return next();
+    }
+    
     const hasAccess = await checkPermission(req.user.id, 'view_management_user');
     if (!hasAccess) {
         return res.send('You do not have access to this menu');

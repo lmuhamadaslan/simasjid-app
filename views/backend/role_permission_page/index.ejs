@@ -33,7 +33,7 @@
                                         <td>
                                             <a href="/role-permission/edit/<%= encrypt(data.role.id.toString()) %>" class="btn btn-sm
                                             btn-warning">Edit</a>
-                                            <button id="delete-role" data-role-id="<%= encrypt(data.role.id.toString()) %>" class="btn btn-sm
+                                            <button id="delete-role-permission" data-role-permission-id="<%= encrypt(data.role.id.toString()) %>" class="btn btn-sm
                                             btn-danger">Delete</button>
                                         </td>
                                     </tr>
@@ -53,20 +53,20 @@
 </section>
 
 <script>
-    document.querySelectorAll('#delete-role').forEach(button => {
+    document.querySelectorAll('#delete-role-permission').forEach(button => {
         button.addEventListener('click', function () {
-            const roleId = this.getAttribute('data-role-id');
-            const confirmDelete = confirm('Apakah anda yakin ingin menghapus role ini?');
+            const roleId = this.getAttribute('data-role-permission-id');
+            const confirmDelete = confirm('Apakah anda yakin ingin menghapus role permission?');
             if (confirmDelete) {
-                fetch(`/role/delete/${roleId}`, {
+                fetch(`/role-permission/delete/${roleId}`, {
                     method: 'DELETE'
                 })
                     .then(response => {
                         if (response.ok) {
-                            alert('Role berhasil dihapus');
+                            alert('Role Permission berhasil dihapus');
                             window.location.reload();
                         } else {
-                            alert('Role gagal dihapus');
+                            alert('Role Permission gagal dihapus');
                         }
                     })
                     .catch(error => {
