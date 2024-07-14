@@ -4,7 +4,7 @@ import { validationResult } from 'express-validator';
 
 export const index = async (req, res, next) => {
     try {
-        const title = 'Permission';
+        const title = 'Menu';
         const user = req.user;
         const permission = await Permission.findAll();
         const content = '../permission_page/index'
@@ -23,7 +23,7 @@ export const index = async (req, res, next) => {
 
 export const create = async (req, res, next) => {
     try {
-        const title = 'Permission';
+        const title = 'Menu';
         const user = req.user;
         const content = '../permission_page/create'
 
@@ -42,7 +42,7 @@ export const store = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.render('backend/components/main', {
-            title: 'Permission',
+            title: 'Menu',
             user: req.user,
             content: '../permission_page/create',
             hasAccess: await hasAccess(user),
@@ -88,7 +88,7 @@ export const update =  async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.render('backend/compoenents/main', {
-            title: 'Permission',
+            title: 'Menu',
             user: req.user,
             content: '../permission_page/edit',
             hasAccess: await hasAccess(user),

@@ -5,7 +5,7 @@ import Permission from "../models/Permission.js";
 
 export const index = async (req, res, next) => {
     try {
-        const title = "Management Akses";
+        const title = "Management Menu";
         const user = req.user;
         const content = '../role_permission_page/index';
         const data = await RolePermission.findAll({
@@ -80,14 +80,6 @@ export const create = async (req, res, next) => {
     }
 }
 
-export const edit = async (req, res, next) => {
-    try {
-
-    } catch (error) {
-
-    }
-}
-
 export const store = async (req, res, next) => {
     try {
         const { role_id, permission_id } = req.body;
@@ -110,5 +102,87 @@ export const store = async (req, res, next) => {
         })
     } catch (error) {
         next(error);
+    }
+}
+
+export const edit = async (req, res, next) => {
+    try {
+        const id = decrypt(req.params.id);
+        const title = "Edit Management Menu";
+        const user = req.user;
+        const content = '../role_permission_page/edit';
+        const roles = await Role.findAll();
+        const existingRole = await Role.findByPk(id);
+        const permissions = await Permission.findAll();
+        const rolePermission = await RolePermission.findAll({
+            where: {
+                role_id: id
+            }
+        });
+        const existingPermissions = rolePermission.map(item => item.permission_id);
+
+        res.render('backend/components/main', {
+            title,
+            user,
+            content,
+            hasAccess: await hasAccess(user),
+            roles,
+            existingRole: existingRole.dataValues,
+            permissions,
+            existingPermissions,
+            encryptId: req.params.id
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const update = async (req, res, next) => {
+    try {
+        const { role_id, permission_id } = req.body;
+        const id = decrypt(req.params.id);
+
+        if (!role_id || !permission_id) {
+            return res.status(400).json({
+                message: "Data tidak lengkap"
+            })
+        }
+
+        await RolePermission.destroy({
+            where: {
+                role_id: id
+            }
+        });
+
+        permission_id.forEach(async item => {
+            await RolePermission.create({
+                role_id: id,
+                permission_id: item
+            });
+        });
+
+        res.status(200).json({
+            message: "success"
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const destroy = async (req, res, next) => {
+    try {
+        const id = decrypt(req.params.id);
+
+        await RolePermission.destroy({
+            where: {
+                role_id: id
+            }
+        });
+
+        res.status(200).json({
+            message: "success"
+        })
+    } catch (error) {
+        next(error);   
     }
 }
