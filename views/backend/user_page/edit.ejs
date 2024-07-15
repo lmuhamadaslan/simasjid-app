@@ -1,0 +1,85 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Edit User</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <form action="/user/update/<%= encrypt(users.id.toString()) %>" method="post">
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Nama</label>
+                  <input type="text" name="name" id="name" class="form-control mb-1" id="formGroupExampleInput"
+                    placeholder="Input nama user" value="<%= users.name %>">
+                    <% if (typeof errors !== 'undefined') { %>
+                      <% errors.forEach(function(error) { %>
+                        <% if (error.path === 'name') { %>
+                          <div class="alert alert-danger" role="alert">
+                            <%= error.msg %>
+                          </div>
+                        <% } %>
+                      <% }) %>
+                    <% } %>
+                </div>
+                <div class="form-group">
+                  <label for="formGroupExampleInput2">Email</label>
+                  <input type="text" name="email" id="email" class="form-control mb-1" id="formGroupExampleInput2"
+                    placeholder="Input email user" value="<%= users.email %>">
+                    <% if (typeof errors !== 'undefined') { %>
+                      <% errors.forEach(function(error) { %>
+                        <% if (error.path === 'email') { %>
+                          <div class="alert alert-danger" role="alert">
+                            <%= error.msg %>
+                          </div>
+                        <% } %>
+                      <% }) %>
+                    <% } %>
+                </div>
+                <div class="form-group">
+                  <label for="formGroupExampleInput2">Password</label>
+                  <input type="password" name="password" id="password" class="form-control mb-1" id="formGroupExampleInput2"
+                    placeholder="Input password user">
+                    <% if (typeof errors !== 'undefined') { %>
+                      <% errors.forEach(function(error) { %>
+                        <% if (error.path === 'password') { %>
+                          <div class="alert alert-danger mb-1" role="alert">
+                            <%= error.msg %>
+                          </div>
+                        <% } %>
+                      <% }) %>
+                    <% } %>
+                </div>
+                <div class="form-group">
+                  <label for="formGroupExampleInput2">Role</label>
+                    <select name="role_id" id="role_id" class="form-control" id="formGroupExampleInput2">
+                        <option value="">Pilih Role</option>
+                        <% filterRole.forEach((item, index) => { %>
+                            <option value="<%= item.id %>" <%= item.id === users.role_id ? 'selected' : '' %>><%= item.name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (typeof errors !== 'undefined') { %>
+                      <% errors.forEach(function(error) { %>
+                        <% if (error.path === 'role_id') { %>
+                          <div class="alert alert-danger" role="alert">
+                            <%= error.msg %>
+                          </div>
+                        <% } %>
+                      <% }) %>
+                    <% } %>
+                </div>
+                <!-- buat button simpan dan reset -->
+                <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                <button type="reset" class="btn btn-sm btn-danger">Reset</button>
+              </form>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+  </section>

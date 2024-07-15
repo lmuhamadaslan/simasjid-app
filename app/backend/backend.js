@@ -8,6 +8,7 @@ import { encrypt, decrypt } from './helpers/Helper.js';
 import role from './routes/role.js';
 import permission from './routes/permission.js'
 import rolePermission from './routes/role_permission.js'
+import user from './routes/user.js';
 import auth from './routes/auth.js';
 import dashboard from './routes/dashboard.js';
 
@@ -44,6 +45,7 @@ app.use(dashboard);
 app.use(role);
 app.use(permission);
 app.use(rolePermission);
+app.use(user);
 // end middleware
 
 // method global
