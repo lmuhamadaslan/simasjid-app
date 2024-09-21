@@ -11,6 +11,7 @@ import rolePermission from './routes/role_permission.js'
 import user from './routes/user.js';
 import auth from './routes/auth.js';
 import dashboard from './routes/dashboard.js';
+import income from './routes/income.js';
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(session({
         sameSite: 'strict'                
     }
 }));
+
 // export const csrfProtection = csrf({ 
 //     cookie: {
 //         httpOnly: true,
@@ -34,6 +36,7 @@ app.use(session({
 //     }
 // });
 // app.use(csrfProtection);
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
@@ -46,6 +49,7 @@ app.use(role);
 app.use(permission);
 app.use(rolePermission);
 app.use(user);
+app.use(income);
 // end middleware
 
 // method global

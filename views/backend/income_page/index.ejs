@@ -1,0 +1,83 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <!-- <h3 class="card-title">Role List</h3> -->
+                        <a href="/income-record/create" class="btn btn-sm btn-info float-right">Add Income Record</a>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tanggal</th>
+                                    <th>Sumber</th>
+                                    <th>Jumlah</th>
+                                    <th>Keterangan</th>
+                                    <th>Penginput</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% income.forEach((item, index) => { %>
+                                    <tr>
+                                        <td><%= index + 1 %></td>
+                                        <td><%= new Intl.DateTimeFormat('id-ID', {
+                                            day: '2-digit',
+                                            month: 'long',
+                                            year: 'numeric'
+                                        }).format(new Date(item.date)) %></td>
+                                        <td><%= item.source %></td>
+                                        <td><%= new Intl.NumberFormat('id-ID', {
+                                            style: 'currency',
+                                            currency: 'IDR'
+                                        }).format(item.amount) %></td>
+                                        <td><%= item.description %></td>
+                                        <td><%= item.user.name %></td>
+                                        <td>
+                                            <a href="/income-record/edit/<%= encrypt(item.id.toString()) %>" class="btn btn-sm btn-warning">Edit</a>
+                                            <button class="btn btn-sm btn-danger" id="delete-income" data-income-id="<%= encrypt(item.id.toString()) %>">Delete</button>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<script>
+    document.querySelectorAll('#delete-income').forEach(button => {
+        button.addEventListener('click', function () {
+            const incomeId = this.getAttribute('data-income-id');
+            const confirmDelete = confirm('Apakah anda yakin ingin menghapus income ini?');
+            if (confirmDelete) {
+                fetch(`/income-record/delete/${incomeId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Income berhasil dihapus');
+                            window.location.reload();
+                        } else {
+                            alert('Income gagal dihapus');
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+            }
+        })
+    })
+</script>

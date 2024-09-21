@@ -3,8 +3,6 @@ import { decrypt, hasAccess } from '../helpers/Helper.js';
 import { validationResult } from 'express-validator';
 import crypto from 'crypto';
 import Role from '../models/Role.js';
-import { name } from 'ejs';
-import { log } from 'console';
 
 export const index = async (req, res, next) => {
     try {

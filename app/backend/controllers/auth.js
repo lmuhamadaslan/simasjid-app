@@ -3,8 +3,9 @@ import User from '../models/User.js';
 import crypto from 'crypto';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
-import { check, validationResult } from 'express-validator';
+import { validationResult } from 'express-validator';
 import CryptoJS from 'crypto-js';
+import { resultValidation } from '../validation/LoginValidator.js';
 
 export const registerPage = (req, res, next) => {
     const title = 'Register';
@@ -19,43 +20,10 @@ export const loginPage = (req, res, next) => {
     res.render('backend/auth/login', { title, formData: {}, errorMessage: req.flash('error'), secret });
 }
 
-// validator for register
-export const registerValidator = [
-    check('name').notEmpty().withMessage('Name is required.'),
-    check('email').notEmpty().withMessage('Email is required.'),
-    check('password').notEmpty().withMessage('Password is required.').isLength({ min: 8 }).withMessage('Password must be at least 8 characters.'),
-    check('confirmPassword').custom((value, { req }) => {
-        if (value !== req.body.password) {
-            throw new Error('Password confirmation does not match password.');
-        }
-        return true;
-    }),
-    check('terms').equals('agree').withMessage('You must agree to the terms and conditions.'),
-    check('email').custom(async (value) => {
-        const user = await User.findOne({ where: { email: value } });
-        if (user) {
-            throw new Error('Email already in use.');
-        }
-        return true;
-    }),
-    check('name').custom(async (value) => {
-        const name = await User.findOne({ where: { name: value } });
-        if (name) {
-            throw new Error('Name already in use.');
-        }
-    })
-]
-
-// validator for login
-export const loginValidator = [
-    check('email').notEmpty().withMessage('Email is required.'),
-    check('password').notEmpty().withMessage('Password is required.'),
-]
-
 export const register = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.render('backend/auth/register', { errors: errors.array(), formData: req.body });
+        return res.render('backend/auth/register', { errors: errors.array(), formData: req.body, title: 'Register' });
     }
 
     try {
@@ -122,32 +90,6 @@ passport.deserializeUser((id, done) => {
         .then(user => done(null, user))
         .catch(err => done(err));
 });
-
-// export const setRememberMe = (req, res, next) => {
-//     // console.log(req.body.remember);
-//     try {
-//         if (req.body.remember === 'on') {
-//             req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
-//         }
-//         next();
-//     } catch (error) {
-//         next(error);
-//     }
-// }
-
-// export const login = passport.authenticate('local', {
-//     successRedirect: '/dashboard',
-//     failureRedirect: '/login',
-//     failureFlash: true,
-// });
-
-const resultValidation = (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.render('backend/auth/login', { errors: errors.array(), formData: req.body, errorMessage: req.flash('error') });
-    }
-    next();
-}
 
 export const login = [
     resultValidation,

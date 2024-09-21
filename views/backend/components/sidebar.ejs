@@ -113,7 +113,98 @@
           </ul>
         </li>
         <% } %>
-          <li class="nav-header">MANAGEMENT KAS MASJID</li>
+        <li class="nav-header">MOSQUE CASH MANAGEMENT</li>
+        <% if (
+          hasAccess.includes('view_data_master') || user.role_id === 1
+        ) { %>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Master Data
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <% if ( hasAccess.includes('view_income_type') || user.role_id === 1 ) { %>
+              <li class="nav-item">
+                <a href="/income-type" class="nav-link <% if (title == 'Income Type') { %> active <% } %>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Income Type</p>
+                </a>
+              </li>
+              <% } %>
+              <% if ( hasAccess.includes('view_outcome_type') || user.role_id === 1 ) { %>
+              <li class="nav-item">
+                <a href="/outcome-type" class="nav-link <% if (title == 'Outcome Type') { %> active <% } %>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Outcome Type</p>
+                </a>
+              </li>
+              <% } %>
+              <!-- 
+              <% if ( hasAccess.includes('view_role_permission') || user.role_id === 1 ) { %>
+                <li class="nav-item">
+                  <a href="/role-permission" class="nav-link <% if (title == 'Management Menu') { %> active  <% } %>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Management Menu</p>
+                  </a>
+                </li>
+              <% } %>
+              <% if ( hasAccess.includes('view_user') || user.role_id === 1 ) { %>
+                <li class="nav-item">
+                  <a href="/user" class="nav-link <% if (title == 'User' || title == 'Add User' || title == 'Edit User') { %> active <% } %>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>User</p>
+                  </a>
+                </li>
+              <% } %> -->
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Mosque Finance
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <% if ( hasAccess.includes('view_income') || user.role_id === 1 ) { %>
+              <li class="nav-item">
+                <a href="/income-record" class="nav-link <% if (title == 'Income Record') { %> active <% } %>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Income Recording</p>
+                </a>
+              </li>
+              <% } %>
+              <!-- <% if ( hasAccess.includes('view_permission') || user.role_id === 1 ) { %>
+              <li class="nav-item">
+                <a href="/permission" class="nav-link <% if (title == 'Menu') { %> active <% } %>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Menu</p>
+                </a>
+              </li>
+              <% } %>
+              <% if ( hasAccess.includes('view_role_permission') || user.role_id === 1 ) { %>
+                <li class="nav-item">
+                  <a href="/role-permission" class="nav-link <% if (title == 'Management Menu') { %> active  <% } %>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Management Menu</p>
+                  </a>
+                </li>
+              <% } %>
+              <% if ( hasAccess.includes('view_user') || user.role_id === 1 ) { %>
+                <li class="nav-item">
+                  <a href="/user" class="nav-link <% if (title == 'User' || title == 'Add User' || title == 'Edit User') { %> active <% } %>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>User</p>
+                  </a>
+                </li>
+              <% } %> -->
+            </ul>
+          </li>
+          <% } %>
     </ul>
   </nav>
   <!-- /.sidebar-menu -->

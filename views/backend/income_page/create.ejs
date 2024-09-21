@@ -1,0 +1,72 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Tambah Income Baru</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <form action="/income-record/store" method="post">
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Tanggal Pemasukkan</label>
+                  <input type="date" name="date" class="form-control" id="formGroupExampleInput"
+                    placeholder="Input nama income">
+                </div>
+                <% if (typeof errors !== 'undefined') { %>
+                  <% errors.forEach(function(error) { %>
+                    <% if (error.path === 'date') { %>
+                      <div class="alert alert-danger" role="alert">
+                        <%= error.msg %>
+                      </div>
+                    <% } %>
+                  <% }) %>
+                <% } %>
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Sumber Pemasukkan</label>
+                  <input type="text" name="source" class="form-control" id="formGroupExampleInput"
+                    placeholder="Input sumber pemasukkan">
+                </div>
+                <% if (typeof errors !== 'undefined') { %>
+                  <% errors.forEach(function(error) { %>
+                    <% if (error.path === 'source') { %>
+                      <div class="alert alert-danger" role="alert">
+                        <%= error.msg %>
+                      </div>
+                    <% } %>
+                  <% }) %>
+                <% } %>
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Nominal Pemasukkan</label>
+                  <input type="number" name="amount" class="form-control" id="formGroupExampleInput"
+                    placeholder="Input nominal pemasukkan">
+                </div>
+                <% if (typeof errors !== 'undefined') { %>
+                  <% errors.forEach(function(error) { %>
+                    <% if (error.path === 'amount') { %>
+                      <div class="alert alert-danger" role="alert">
+                        <%= error.msg %>
+                      </div>
+                    <% } %>
+                  <% }) %>
+                <% } %>
+                <div class="form-group">
+                  <label for="formGroupExampleInput2">Deskripsi</label>
+                  <textarea type="text" name="description" class="form-control" id="formGroupExampleInput2"
+                    placeholder="Input deskripsi tentang income"></textarea>
+                </div>
+                <!-- buat button simpan dan reset -->
+                <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                <button type="reset" class="btn btn-sm btn-danger">Reset</button>
+              </form>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+  </section>

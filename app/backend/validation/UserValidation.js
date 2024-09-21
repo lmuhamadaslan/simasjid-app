@@ -16,5 +16,6 @@ export const userValidator = [
         if (name) {
             throw new Error('Name already in use.');
         }
-    })
+    }),
+    check('description').notEmpty().withMessage('Description is required')
 ]
